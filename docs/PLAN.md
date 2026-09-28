@@ -59,6 +59,15 @@ Controller → Service → Repository → Database
 - Service chứa business logic.
 - Repository phụ trách truy cập dữ liệu.
 
+**Quy ước đặt tên (Naming Convention):**
+- **Entity:** Danh từ số ít, PascalCase (VD: `Job`, `Applicant`).
+- **Repository:** `[Entity]Repository` (VD: `JobRepository`).
+- **Service:** `[Feature]Service` (VD: `JobService`).
+- **Controller:** `[Feature]Controller` (VD: `EmployerJobController`).
+- **DTO Request:** `[Action][Entity]Request` (VD: `CreateJobRequest`, `LoginRequest`).
+- **DTO Response:** `[Entity]Response` (VD: `JobDetailResponse`, `ProfileResponse`).
+- **Exception:** `[Error]Exception` (VD: `ResourceNotFoundException`).
+
 ### BE-1.4 | Database Schema + JPA Entities | Priority: Urgent
 
 - Chốt schema:
@@ -85,29 +94,11 @@ Controller → Service → Repository → Database
   - Job 1-N Application
   - Applicant 1-N Application
 
-### BE-1.5 | Repository Layer | Priority: Urgent
-
-Tạo:
-
-- `ApplicantRepository`
-- `CompanyRepository`
-- `EmployerRepository`
-- `JobRepository`
-- `ApplicationRepository`
-
-Các query chính:
-
-- Tìm Applicant/Employer theo email.
-- Tìm job theo employer.
-- Tìm application theo applicant.
-- Tìm application theo job.
-- Kiểm tra Applicant đã apply job hay chưa.
-
-### BE-1.6 | OpenAPI / Swagger Init | Priority: High
+### BE-1.5 | OpenAPI / Swagger Init | Priority: High
 
 - Cấu hình `springdoc-openapi`.
 - Cấu hình Bearer JWT trên Swagger UI (để sẵn sàng cho các phase sau).
-- **Quy định chung:** Bắt đầu từ Giai đoạn 2, mỗi khi hoàn thành một API mới, BẮT BUỘC phải bổ sung annotation Swagger và viết kèm Unit/Integration Test cho API đó.
+- **Quy định chung:** Bắt đầu từ Giai đoạn 2, mỗi khi hoàn thành một API mới, BẮT BUỘC phải bổ sung annotation Swagger và viết kèm Unit/Integration Test cho API đó. Bỏ qua việc tạo trước Repository, ai làm API nào thì người đó tự tạo Repository tương ứng.
 
 **Checkpoint Giai đoạn 1:**
 
@@ -454,7 +445,7 @@ Rejected
 
 | Giai đoạn                    | Deliverables                                                                     |
 | ------------------------------ | -------------------------------------------------------------------------------- |
-| **Foundation**           | Docker Compose (Backend + MySQL), Spring Boot, Schema, Repositories, Swagger     |
+| **Foundation**           | Docker Compose (Backend + MySQL), Spring Boot, Schema, Swagger     |
 | **Authentication**       | Auth APIs, JWT Security, Profile API, Unit/Integration tests                     |
 | **Jobs**                 | Public Job APIs, Employer Job APIs, Unit/Integration tests                       |
 | **Applications**         | Apply Job APIs, Application Management APIs, Unit/Integration tests              |
