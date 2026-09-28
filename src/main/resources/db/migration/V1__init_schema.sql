@@ -1,0 +1,2 @@
+-- File trống ban đầu để Flyway khởi tạo bảng metadata (flyway_schema_history).
+-- Khi làm Task BE-1.4, bạn sẽ thiết kế và viết code tạo bảng (CREATE TABLE applicant, job...) vào đây.

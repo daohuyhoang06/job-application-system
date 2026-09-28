@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: job-application-system
+  
+  # Cấu hình Database
+  datasource:
+    # Lấy từ biến môi trường (trong Docker), hoặc dùng giá trị mặc định nếu chạy local không dùng Docker
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/job_application_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:job_db_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:job_db_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # Cấu hình Hibernate (ORM)
+  jpa:
+    hibernate:
+      ddl-auto: validate # Chuyển từ update sang validate vì đã dùng Flyway
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  # Cấu hình Flyway
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+# Cấu hình JWT tùy chỉnh
+jwt:
+  secret: ${JWT_SECRET:super_secret_jwt_key_that_should_be_at_least_256_bits_long}
+  expiration: 86400000 # Thời gian hết hạn token: 24 giờ (tính bằng ms)
+
+# Cấu hình Swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
