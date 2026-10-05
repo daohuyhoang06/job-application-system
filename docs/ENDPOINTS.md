@@ -1,83 +1,63 @@
-# API Endpoints — Job Application System
+Nhóm 1: Tuấn
 
-## AUTH
+AUTH
 
-- `POST /api/auth/applicants/register`  
-  Đăng ký tài khoản ứng viên.
+POST    /api/auth/applicants/register : Đăng ký tài khoản ứng viên.
 
-- `POST /api/auth/applicants/login`  
-  Đăng nhập tài khoản ứng viên.
+POST    /api/auth/applicants/login**	**: Đăng nhập tài khoản ứng viên
 
-- `POST /api/auth/employers/register`  
-  Đăng ký tài khoản nhà tuyển dụng/công ty.
+POST    /api/auth/employers/register : Đăng ký tài khoản nhà tuyển dụng/công ty
 
-- `POST /api/auth/employers/login`  
-  Đăng nhập tài khoản nhà tuyển dụng/công ty.
+POST    /api/auth/employers/login**	**: Đăng nhập tài khoản nhà tuyển dụng/công ty
 
----
+Nhóm 2: Hoàng
 
-## PUBLIC JOBS
+EMPLOYER JOBS
 
-- `GET /api/jobs`  
-  Lấy danh sách công việc; hỗ trợ tìm kiếm.
+POST    /api/employer/jobs: Nhà tuyển dụng đăng một công việc mới.
 
-- `GET /api/jobs/{jobId}`  
-  Xem thông tin chi tiết của một công việc.
+GET     /api/employer/jobs: Xem danh sách các công việc do nhà tuyển dụng hiện tại đăng.
 
----
+GET     /api/employer/jobs/{jobId}: Xem chi tiết một công việc do nhà tuyển dụng hiện tại đăng.
 
-## APPLICANT PROFILE
+PATCH   /api/employer/jobs/{jobId}: Cập nhật thông tin của một công việc đã đăng.
 
-- `GET /api/applicants/me`  
-  Xem thông tin cá nhân của ứng viên đang đăng nhập.
+DELETE  /api/employer/jobs/{jobId}: Đóng công việc (`CLOSED`) theo cơ chế soft delete; không xóa Job hoặc Application.
 
-- `PATCH /api/applicants/me`  
-  Cập nhật thông tin cá nhân của ứng viên đang đăng nhập.
+Nhóm 3: Đức
 
----
+PUBLIC JOBS
 
-## APPLICANT APPLICATIONS
+GET     /api/jobs**	** : Lấy danh sách công việc; hỗ trợ tìm kiếm
 
-- `POST /api/jobs/{jobId}/applications`  
-  Ứng tuyển vào một công việc.
+GET     /api/jobs/{jobId}: Xem thông tin chi tiết của một công việc.
 
-- `GET /api/applications/me`  
-  Xem danh sách các đơn ứng tuyển của ứng viên đang đăng nhập.
+APPLICANT APPLICATIONS
 
-- `GET /api/applications/{applicationId}`  
-  Xem chi tiết một đơn ứng tuyển của bản thân.
+POST    /api/jobs/{jobId}/applications**	**: Ứng tuyển vào một công việc.
 
-- `DELETE /api/applications/{applicationId}`  
-  Rút/xóa một đơn ứng tuyển của bản thân.
+GET     /api/applications/me: Xem danh sách các đơn ứng tuyển của ứng viên đang đăng nhập.
 
----
+GET     /api/applications/{applicationId}: Xem chi tiết một đơn ứng tuyển của bản thân.
 
-## EMPLOYER JOBS
+DELETE  /api/applications/{applicationId}: Rút/xóa một đơn ứng tuyển của bản thân.
 
-- `POST /api/employer/jobs`  
-  Nhà tuyển dụng đăng một công việc mới.
+Nhóm 4: Bích
 
-- `GET /api/employer/jobs`  
-  Xem danh sách các công việc do nhà tuyển dụng hiện tại đăng.
+EMPLOYER APPLICATIONS
 
-- `GET /api/employer/jobs/{jobId}`  
-  Xem chi tiết một công việc do nhà tuyển dụng hiện tại đăng.
+GET     /api/employer/jobs/{jobId}/applications: Xem danh sách ứng tuyển vào một công việc.
 
-- `PATCH /api/employer/jobs/{jobId}`  
-  Cập nhật thông tin của một công việc đã đăng.
+GET     /api/employer/applications/{applicationId}: Xem chi tiết một đơn ứng tuyển
 
-- `DELETE /api/employer/jobs/{jobId}`  
-  Xóa một công việc do nhà tuyển dụng hiện tại đăng.
+PATCH   /api/employer/applications/{applicationId}/status: Cập nhật trạng thái đơn ứng tuyển.
 
----
+APPLICANT PROFILE
 
-## EMPLOYER APPLICATIONS
+GET     /api/applicants/me**	**: Xem thông tin cá nhân của ứng viên đang đăng nhập.
 
-- `GET /api/employer/jobs/{jobId}/applications`  
-  Xem danh sách ứng tuyển vào một công việc.
+PATCH   /api/applicants/me**	**: Cập nhật thông tin cá nhân của ứng viên đang đăng nhập.
 
-- `GET /api/employer/applications/{applicationId}`  
-  Xem chi tiết một đơn ứng tuyển.
+( Thêm trường CV)
 
-- `PATCH /api/employer/applications/{applicationId}/status`  
-  Cập nhật trạng thái đơn ứng tuyển.
+**
