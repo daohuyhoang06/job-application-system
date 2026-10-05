@@ -50,8 +50,20 @@ public class Application {
     )
     private Applicant applicant;
 
-    @Column(name = "resume_url", length = 500)
-    private String resumeUrl;
+    @Column(name = "resume_object_key", length = 500)
+    private String resumeObjectKey;
+
+    @Column(name = "resume_original_filename", length = 255)
+    private String resumeOriginalFilename;
+
+    @Column(name = "resume_content_type", length = 100)
+    private String resumeContentType;
+
+    @Column(name = "resume_size_bytes")
+    private Long resumeSizeBytes;
+
+    @Column(name = "resume_uploaded_at")
+    private LocalDateTime resumeUploadedAt;
 
     @Column(name = "cover_letter", columnDefinition = "TEXT")
     private String coverLetter;
@@ -74,8 +86,16 @@ public class Application {
     public void setJob(Job job) { this.job = job; }
     public Applicant getApplicant() { return applicant; }
     public void setApplicant(Applicant applicant) { this.applicant = applicant; }
-    public String getResumeUrl() { return resumeUrl; }
-    public void setResumeUrl(String resumeUrl) { this.resumeUrl = resumeUrl; }
+    public String getResumeObjectKey() { return resumeObjectKey; }
+    public void setResumeObjectKey(String resumeObjectKey) { this.resumeObjectKey = resumeObjectKey; }
+    public String getResumeOriginalFilename() { return resumeOriginalFilename; }
+    public void setResumeOriginalFilename(String resumeOriginalFilename) { this.resumeOriginalFilename = resumeOriginalFilename; }
+    public String getResumeContentType() { return resumeContentType; }
+    public void setResumeContentType(String resumeContentType) { this.resumeContentType = resumeContentType; }
+    public Long getResumeSizeBytes() { return resumeSizeBytes; }
+    public void setResumeSizeBytes(Long resumeSizeBytes) { this.resumeSizeBytes = resumeSizeBytes; }
+    public LocalDateTime getResumeUploadedAt() { return resumeUploadedAt; }
+    public void setResumeUploadedAt(LocalDateTime resumeUploadedAt) { this.resumeUploadedAt = resumeUploadedAt; }
     public String getCoverLetter() { return coverLetter; }
     public void setCoverLetter(String coverLetter) { this.coverLetter = coverLetter; }
     public ApplicationStatus getStatus() { return status; }
