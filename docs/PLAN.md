@@ -281,7 +281,7 @@ DELETE /api/employer/jobs/{jobId}
 - Cho phép cập nhật thông tin job.
 - Cho phép Open/Close job nếu cần.
 - Không cho sửa `employerId`.
-- Xác nhận hành vi cascade Application khi xóa Job.
+- DELETE thực hiện soft delete bằng cách chuyển Job sang `CLOSED`; không xóa vật lý Job hoặc Application.
 
 **Checkpoint Giai đoạn 3:**
 
