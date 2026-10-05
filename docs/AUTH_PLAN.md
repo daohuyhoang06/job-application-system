@@ -23,7 +23,7 @@ POST /api/auth/employers/register
 POST /api/auth/employers/login
 ```
 
-Đồng thời chuẩn bị nền tảng bảo mật để các API profile, job và application sử dụng JWT sau này.
+Đồng thời chuẩn bị nền tảng bảo mật để các API profile, job và application sử dụng JWT sau này. CV chỉ được xử lý ở phase Application sau khi Applicant đã xác thực.
 
 ### Chưa làm trong giai đoạn này
 
@@ -33,6 +33,7 @@ POST /api/auth/employers/login
 - Xác minh email.
 - OAuth2/đăng nhập Google.
 - Admin và quản lý tài khoản.
+- Upload hoặc quản lý CV/Resume (thuộc Application, không thuộc Auth).
 
 ## 3. Quyết định thiết kế
 
@@ -65,6 +66,14 @@ JWT gồm các claim tối thiểu:
 - Trim và chuyển về lowercase trước khi kiểm tra/lưu.
 - Email duy nhất trong từng loại tài khoản theo schema hiện tại.
 - Cùng một email có thể tồn tại ở cả Applicant và Employer vì hai bảng tách biệt.
+
+### CV / Resume
+
+- CV không gắn với `Applicant` hay dữ liệu Auth; mỗi file CV thuộc một `Application` để giữ đúng lịch sử tài liệu đã dùng khi ứng tuyển.
+- File PDF sẽ lưu private trong MinIO bucket `job-cvs`. Database chỉ lưu object key và metadata, không lưu URL public hoặc URL có chữ ký.
+- Các cột metadata hiện có tại bảng `application`: `resume_object_key`, `resume_original_filename`, `resume_content_type`, `resume_size_bytes`, `resume_uploaded_at`.
+- API Application sẽ kiểm tra quyền sở hữu trước khi tạo presigned URL có thời hạn ngắn để tải/xem CV.
+- Việc upload, giới hạn dung lượng và kiểm tra MIME PDF được triển khai trong phase Application, không nằm trong các endpoint Auth.
 
 ### HTTP status
 
@@ -388,6 +397,7 @@ Mỗi commit phải build được; không commit secret, file `.env` thật ho�
 - [ ] Thiếu/sai token trả `401`; sai role trả `403` dưới dạng JSON chuẩn.
 - [ ] Entity và `passwordHash` không bị serialize ra response.
 - [ ] Validation và exception được xử lý tập trung.
+- [ ] Auth không nhận, trả hoặc lưu CV; dữ liệu CV được tách sang Application/MinIO.
 - [ ] Swagger hiển thị đủ request/response và nút Authorize cho Bearer JWT.
 - [ ] Unit test và integration test pass.
 - [ ] `mvn test` pass.
