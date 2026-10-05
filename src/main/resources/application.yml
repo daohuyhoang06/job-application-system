@@ -29,7 +29,7 @@ spring:
 # Cấu hình JWT tùy chỉnh
 jwt:
   secret: ${JWT_SECRET:super_secret_jwt_key_that_should_be_at_least_256_bits_long}
-  expiration: 86400000 # Thời gian hết hạn token: 24 giờ (tính bằng ms)
+  expiration: ${JWT_EXPIRATION:86400000} # Thời gian hết hạn token: 24 giờ (tính bằng ms)
 
 # Cấu hình Swagger
 springdoc:
