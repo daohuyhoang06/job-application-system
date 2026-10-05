@@ -67,7 +67,7 @@ CREATE TABLE application (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_application_job
         FOREIGN KEY (job_id) REFERENCES job (job_id)
-        ON DELETE CASCADE,
+        ON DELETE RESTRICT,
     CONSTRAINT fk_application_applicant
         FOREIGN KEY (applicant_id) REFERENCES applicant (applicant_id)
         ON DELETE CASCADE,
