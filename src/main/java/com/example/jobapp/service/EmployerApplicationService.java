@@ -26,7 +26,7 @@ public class EmployerApplicationService {
                 application.getApplicant().getFullName(),
                 application.getApplicant().getEmail(),
                 application.getApplicant().getPhone(),
-                application.getResumeUrl(),
+                application.getResumeObjectKey(),
                 application.getCoverLetter(),
                 application.getApplicant().getLocation(),
                 application.getStatus(),

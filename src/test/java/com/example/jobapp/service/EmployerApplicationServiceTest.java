@@ -112,7 +112,7 @@ class EmployerApplicationServiceTest {
         Application application = new Application();
         application.setId(20);
         application.setApplicant(applicant);
-        application.setResumeUrl("https://example.com/resume.pdf");
+        application.setResumeObjectKey("resumes/applicant-1.pdf");
         application.setCoverLetter("I am interested in this position.");
         application.setStatus(ApplicationStatus.PENDING);
         return application;
