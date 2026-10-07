@@ -6,4 +6,6 @@ import java.util.Optional;
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
     List<Application> findByJob_IdAndJob_Employer_Id(Integer jobId, Integer employerId);
     Optional<Application> findByIdAndJob_Employer_Id(Integer applicationId, Integer employerId);
+    boolean existsByJob_IdAndApplicant_Id(Integer jobId, Integer applicantId);
+    List<Application> findAllByApplicant_IdOrderByAppliedAtDesc(Integer applicantId);
 }
