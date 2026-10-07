@@ -8,4 +8,5 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     Optional<Application> findByIdAndJob_Employer_Id(Integer applicationId, Integer employerId);
     boolean existsByJob_IdAndApplicant_Id(Integer jobId, Integer applicantId);
     List<Application> findAllByApplicant_IdOrderByAppliedAtDesc(Integer applicantId);
+    Optional<Application> findByIdAndApplicant_Id(Integer applicationId, Integer applicantId);
 }

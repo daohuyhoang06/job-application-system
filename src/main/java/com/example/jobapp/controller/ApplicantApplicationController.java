@@ -6,6 +6,7 @@ import com.example.jobapp.exception.ErrorResponse;
 import com.example.jobapp.security.AuthenticatedUser;
 import com.example.jobapp.service.ApplicantApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -62,6 +63,35 @@ public class ApplicantApplicationController {
         return ResponseEntity.ok(response);
     }
 
-    // GET /api/applications/{applicationId}: Xem chi tiết một đơn ứng tuyển của bản thân.
+    @GetMapping("/api/applications/{applicationId}")
+    @Operation(summary = "Get application details", description = "Xem thông tin chi tiết của một đơn ứng tuyển của bản thân")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lấy chi tiết thành công"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy đơn ứng tuyển hoặc không có quyền xem",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    public ResponseEntity<ApplicantApplicationResponse> getApplicationById(
+            @AuthenticationPrincipal AuthenticatedUser user,
+            @Parameter(description = "ID của đơn ứng tuyển")
+            @PathVariable Integer applicationId
+    ) {
+        ApplicantApplicationResponse response = applicantApplicationService.getApplicationById(applicationId, user.userId());
+        return ResponseEntity.ok(response);
+    }
 
+    @DeleteMapping("/api/applications/{applicationId}")
+    @Operation(summary = "Withdraw an application", description = "Rút/hủy một đơn ứng tuyển của bản thân")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Rút đơn thành công (No Content)"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy đơn ứng tuyển hoặc không có quyền rút",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    public ResponseEntity<Void> withdrawApplication(
+            @AuthenticationPrincipal AuthenticatedUser user,
+            @Parameter(description = "ID của đơn ứng tuyển cần rút")
+            @PathVariable Integer applicationId
+    ) {
+        applicantApplicationService.withdrawApplication(user.userId(), applicationId);
+        return ResponseEntity.noContent().build();
+    }
 }

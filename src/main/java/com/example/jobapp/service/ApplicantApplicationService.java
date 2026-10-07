@@ -70,6 +70,21 @@ public class ApplicantApplicationService {
         return listApplicantApplication;
     }
 
+
+    @Transactional(readOnly = true)
+    public ApplicantApplicationResponse getApplicationById(Integer applicationId, Integer applicantId) {
+        Application application = applicationRepository.findByIdAndApplicant_Id(applicationId, applicantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Application not found with id: " + applicationId));
+        return toResponse(application);
+    }
+
+    @Transactional
+    public void withdrawApplication(Integer applicantId, Integer applicationId) {
+        Application application = applicationRepository.findByIdAndApplicant_Id(applicationId, applicantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Application not found with id: " + applicationId));
+        applicationRepository.delete(application);
+    }
+
     private ApplicantApplicationResponse toResponse(Application application) {
         return new ApplicantApplicationResponse(
                 application.getId(),
