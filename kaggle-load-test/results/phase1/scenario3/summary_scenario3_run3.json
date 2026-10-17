@@ -1,0 +1,147 @@
+{
+    "metrics": {
+        "http_req_connecting": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.00748203455284553,
+            "min": 0,
+            "med": 0,
+            "max": 1.028219
+        },
+        "http_req_duration": {
+            "min": 2.693231,
+            "med": 348.90860250000003,
+            "max": 1351.882026,
+            "p(90)": 746.9909365,
+            "p(95)": 845.7975925000001,
+            "avg": 368.2082228116528,
+            "thresholds": {
+                "p(95)<2500": false
+            }
+        },
+        "http_reqs": {
+            "count": 1476,
+            "rate": 36.64023228742726
+        },
+        "http_req_tls_handshaking": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 1476,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "iterations": {
+            "count": 492,
+            "rate": 12.213410762475753
+        },
+        "data_sent": {
+            "count": 434290,
+            "rate": 10780.817398446332
+        },
+        "iteration_duration": {
+            "avg": 1408.4278989898378,
+            "min": 519.727939,
+            "med": 1418.6891755000001,
+            "max": 2963.044447,
+            "p(90)": 2181.4549418,
+            "p(95)": 2439.675813749999
+        },
+        "http_req_sending": {
+            "avg": 0.05286150067750677,
+            "min": 0.013258,
+            "med": 0.043123999999999996,
+            "max": 4.533487,
+            "p(90)": 0.06679,
+            "p(95)": 0.093383
+        },
+        "http_req_waiting": {
+            "min": 2.539737,
+            "med": 348.468976,
+            "max": 1351.700982,
+            "p(90)": 745.0990409999999,
+            "p(95)": 844.65905175,
+            "avg": 367.56380211720875
+        },
+        "checks": {
+            "passes": 1476,
+            "fails": 0,
+            "value": 1
+        },
+        "vus_max": {
+            "max": 30,
+            "value": 30,
+            "min": 30
+        },
+        "vus": {
+            "value": 2,
+            "min": 2,
+            "max": 30
+        },
+        "http_req_blocked": {
+            "max": 1.145228,
+            "p(90)": 0.011835,
+            "p(95)": 0.0227645,
+            "avg": 0.01981266260162599,
+            "min": 0.001991,
+            "med": 0.0087855
+        },
+        "data_received": {
+            "count": 915732,
+            "rate": 22732.13630964115
+        },
+        "http_req_duration{expected_response:true}": {
+            "p(90)": 746.9909365,
+            "p(95)": 845.7975925000001,
+            "avg": 368.2082228116528,
+            "min": 2.693231,
+            "med": 348.90860250000003,
+            "max": 1351.882026
+        },
+        "http_req_receiving": {
+            "avg": 0.5915591937669384,
+            "min": 0.04284,
+            "med": 0.189496,
+            "max": 9.674776,
+            "p(90)": 1.4948435,
+            "p(95)": 2.8519545
+        }
+    },
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "1. POST /register 201": {
+                    "name": "1. POST /register 201",
+                    "path": "::1. POST /register 201",
+                    "id": "f0fe8e0846b1713ab4f2139340250e4b",
+                    "passes": 492,
+                    "fails": 0
+                },
+                "2. POST /login 200": {
+                    "passes": 492,
+                    "fails": 0,
+                    "name": "2. POST /login 200",
+                    "path": "::2. POST /login 200",
+                    "id": "04f70c7157d41f062867b0e522df9b4f"
+                },
+                "3. GET /applicants/me 200": {
+                    "name": "3. GET /applicants/me 200",
+                    "path": "::3. GET /applicants/me 200",
+                    "id": "6b817c9787f71cdd711baa514ff141a8",
+                    "passes": 492,
+                    "fails": 0
+                }
+            }
+    }
+}

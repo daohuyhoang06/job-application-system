@@ -1,0 +1,147 @@
+{
+    "metrics": {
+        "http_req_duration{expected_response:true}": {
+            "avg": 6.586695224013091,
+            "min": 2.491755,
+            "med": 6.3422,
+            "max": 31.714208,
+            "p(90)": 9.291474000000001,
+            "p(95)": 10.6868337
+        },
+        "http_req_connecting": {
+            "p(95)": 0,
+            "avg": 0.004564860079420697,
+            "min": 0,
+            "med": 0,
+            "max": 2.038269,
+            "p(90)": 0
+        },
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "http_reqs": {
+            "rate": 213.43399814923038,
+            "count": 8562
+        },
+        "http_req_receiving": {
+            "avg": 0.17274657965428655,
+            "min": 0.029073,
+            "med": 0.1239615,
+            "max": 5.604235,
+            "p(90)": 0.31009770000000014,
+            "p(95)": 0.4469501499999998
+        },
+        "iteration_duration": {
+            "max": 448.182072,
+            "p(90)": 426.44019230000004,
+            "p(95)": 428.9008104,
+            "avg": 422.3300109046956,
+            "min": 414.05072,
+            "med": 421.712826
+        },
+        "http_req_tls_handshaking": {
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "checks": {
+            "passes": 8562,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_sending": {
+            "med": 0.0307185,
+            "max": 1.732931,
+            "p(90)": 0.06047530000000001,
+            "p(95)": 0.07896764999999999,
+            "avg": 0.03893055185704262,
+            "min": 0.009808
+        },
+        "iterations": {
+            "count": 2854,
+            "rate": 71.14466604974346
+        },
+        "data_received": {
+            "count": 22364469,
+            "rate": 557502.6903941276
+        },
+        "http_req_duration": {
+            "min": 2.491755,
+            "med": 6.3422,
+            "max": 31.714208,
+            "p(90)": 9.291474000000001,
+            "p(95)": 10.6868337,
+            "avg": 6.586695224013091,
+            "thresholds": {
+                "p(95)<1500": false
+            }
+        },
+        "http_req_waiting": {
+            "max": 31.567362,
+            "p(90)": 9.0482908,
+            "p(95)": 10.40219715,
+            "avg": 6.375018092501733,
+            "min": 2.376502,
+            "med": 6.140452
+        },
+        "vus": {
+            "value": 2,
+            "min": 2,
+            "max": 49
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 8562,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "data_sent": {
+            "count": 875676,
+            "rate": 21828.898594174898
+        },
+        "http_req_blocked": {
+            "max": 2.148836,
+            "p(90)": 0.012453500000000003,
+            "p(95)": 0.023109299999999996,
+            "avg": 0.01623861901424899,
+            "min": 0.002787,
+            "med": 0.0083355
+        }
+    },
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "1. GET /jobs 200": {
+                    "path": "::1. GET /jobs 200",
+                    "id": "bc7f9fc40e35f0c817326cedf2de0513",
+                    "passes": 2854,
+                    "fails": 0,
+                    "name": "1. GET /jobs 200"
+                },
+                "2. GET /jobs search 200": {
+                    "fails": 0,
+                    "name": "2. GET /jobs search 200",
+                    "path": "::2. GET /jobs search 200",
+                    "id": "ddd2191a7006da338f4b0f2cc4ae57e6",
+                    "passes": 2854
+                },
+                "3. GET /jobs/{id} 200": {
+                    "name": "3. GET /jobs/{id} 200",
+                    "path": "::3. GET /jobs/{id} 200",
+                    "id": "6cabd71e277527cf559112dec559900e",
+                    "passes": 2854,
+                    "fails": 0
+                }
+            }
+    }
+}
