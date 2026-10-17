@@ -18,18 +18,18 @@ services:
       - job_network
 
   minio:
-    image: bitnamilegacy/minio:2025.7.23-debian-12-r5
+    image: quay.io/minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
     container_name: job_minio
     restart: unless-stopped
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_DEFAULT_BUCKETS: ${MINIO_BUCKET}
+    command: server /data --console-address ":9001"
     ports:
       - "${MINIO_API_PORT:-9000}:9000"
       - "${MINIO_CONSOLE_PORT:-9001}:9001"
     volumes:
-      - minio_data:/bitnami/minio/data
+      - minio_data:/data
     networks:
       - job_network
 

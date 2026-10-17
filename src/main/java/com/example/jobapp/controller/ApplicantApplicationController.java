@@ -1,6 +1,5 @@
 package com.example.jobapp.controller;
 
-import com.example.jobapp.dto.request.ApplyJobRequest;
 import com.example.jobapp.dto.response.ApplicantApplicationResponse;
 import com.example.jobapp.exception.ErrorResponse;
 import com.example.jobapp.security.AuthenticatedUser;
@@ -13,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,8 @@ public class ApplicantApplicationController {
         this.applicantApplicationService = applicantApplicationService;
     }
 
-    @PostMapping("/api/jobs/{jobId}/applications")
-    @Operation(summary = "Apply for a job", description = "Ứng viên nộp hồ sơ ứng tuyển vào một công việc đang mở tuyển")
+    @PostMapping(value = "/api/jobs/{jobId}/applications", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Apply for a job with a PDF resume", description = "Ứng viên nộp PDF CV và thư giới thiệu vào một công việc đang mở tuyển")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Ứng tuyển thành công"),
             @ApiResponse(responseCode = "400", description = "Dữ liệu không hợp lệ, job đã đóng hoặc đã nộp trước đó",
@@ -43,12 +42,20 @@ public class ApplicantApplicationController {
     public ResponseEntity<ApplicantApplicationResponse> applyJob (
             @AuthenticationPrincipal AuthenticatedUser user,
             @PathVariable Integer jobId,
-            @Valid @RequestBody ApplyJobRequest request
+            @Parameter(
+                    description = "CV định dạng PDF, tối đa 5 MB",
+                    required = true,
+                    content = @Content(schema = @Schema(type = "string", format = "binary"))
+            )
+            @RequestPart("file") org.springframework.web.multipart.MultipartFile file,
+            @Parameter(description = "Thư giới thiệu, không bắt buộc")
+            @RequestPart(value = "coverLetter", required = false) String coverLetter
     ){
             ApplicantApplicationResponse response = applicantApplicationService.applyJob(
                     user.userId(),
                     jobId,
-                    request
+                    file,
+                    coverLetter
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
