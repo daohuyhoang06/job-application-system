@@ -84,6 +84,13 @@
 			<version>2.5.0</version>
 		</dependency>
 
+		<!-- MinIO Object Storage -->
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>8.5.17</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

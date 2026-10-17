@@ -9,7 +9,10 @@ public record ApplicantApplicationResponse(
         Integer jobId,
         String jobTitle,
         String companyName,
-        String resumeUrl,
+        String resumeObjectKey,
+        String resumeOriginalFilename,
+        String resumeContentType,
+        Long resumeSizeBytes,
         String coverLetter,
         ApplicationStatus status,
         LocalDateTime appliedAt

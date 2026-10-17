@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -66,6 +67,38 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return build(HttpStatus.BAD_REQUEST, "INVALID_JOB_DATA", exception.getMessage(), request, null);
+    }
+
+    @ExceptionHandler(InvalidResumeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidResume(
+            InvalidResumeException exception,
+            HttpServletRequest request
+    ) {
+        return build(HttpStatus.BAD_REQUEST, "INVALID_RESUME", exception.getMessage(), request, null);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleResumeTooLarge(
+            MaxUploadSizeExceededException exception,
+            HttpServletRequest request
+    ) {
+        return build(HttpStatus.PAYLOAD_TOO_LARGE, "RESUME_TOO_LARGE", "Resume must not exceed 5 MB", request, null);
+    }
+
+    @ExceptionHandler(ResumeStorageException.class)
+    public ResponseEntity<ErrorResponse> handleResumeStorage(
+            ResumeStorageException exception,
+            HttpServletRequest request
+    ) {
+        return build(HttpStatus.SERVICE_UNAVAILABLE, "RESUME_STORAGE_UNAVAILABLE", exception.getMessage(), request, null);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidArgument(
+            IllegalArgumentException exception,
+            HttpServletRequest request
+    ) {
+        return build(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", exception.getMessage(), request, null);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
