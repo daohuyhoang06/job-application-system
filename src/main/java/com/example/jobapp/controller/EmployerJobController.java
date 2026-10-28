@@ -1,3 +1,4 @@
+
 package com.example.jobapp.controller;
 
 import com.example.jobapp.dto.request.CreateJobRequest;
@@ -35,91 +36,84 @@ import org.springframework.web.bind.annotation.RestController;
 @SecurityRequirement(name = "bearerAuth")
 public class EmployerJobController {
 
-    private final EmployerJobService employerJobService;
+        private final EmployerJobService employerJobService;
 
-    public EmployerJobController(EmployerJobService employerJobService) {
-        this.employerJobService = employerJobService;
-    }
+        public EmployerJobController(EmployerJobService employerJobService) {
+                this.employerJobService = employerJobService;
+        }
 
-    @PostMapping
-    @Operation(summary = "Create a job")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Job created"),
-            @ApiResponse(responseCode = "400", description = "Invalid job data", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<EmployerJobResponse> createJob(
-            @AuthenticationPrincipal AuthenticatedUser user,
-            @Valid @RequestBody CreateJobRequest request
-    ) {
-        EmployerJobResponse response = employerJobService.createJob(user.userId(), request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+        @PostMapping
+        @Operation(summary = "Create a job")
+        @ApiResponses({
+                        @ApiResponse(responseCode = "201", description = "Job created"),
+                        @ApiResponse(responseCode = "400", description = "Invalid job data", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+        })
+        public ResponseEntity<EmployerJobResponse> createJob(
+                        @AuthenticationPrincipal AuthenticatedUser user,
+                        @Valid @RequestBody CreateJobRequest request) {
+                EmployerJobResponse response = employerJobService.createJob(user.userId(), request);
+                return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
 
-    @GetMapping
-    @Operation(summary = "List jobs owned by the current employer")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Jobs returned"),
-            @ApiResponse(responseCode = "400", description = "Invalid pagination", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<PageResponse<EmployerJobResponse>> getJobs(
-            @AuthenticationPrincipal AuthenticatedUser user,
-            @Parameter(description = "Zero-based page index", example = "0")
-            @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Page size from 1 to 100", example = "20")
-            @RequestParam(defaultValue = "20") int size
-    ) {
-        return ResponseEntity.ok(employerJobService.getJobs(user.userId(), page, size));
-    }
+        @GetMapping
+        @Operation(summary = "List jobs owned by the current employer")
+        @ApiResponses({
+                        @ApiResponse(responseCode = "200", description = "Jobs returned"),
+                        @ApiResponse(responseCode = "400", description = "Invalid pagination", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+        })
+        public ResponseEntity<PageResponse<EmployerJobResponse>> getJobs(
+                        @AuthenticationPrincipal AuthenticatedUser user,
+                        @Parameter(description = "Zero-based page index", example = "0") @RequestParam(defaultValue = "0") int page,
+                        @Parameter(description = "Page size from 1 to 100", example = "20") @RequestParam(defaultValue = "20") int size) {
+                return ResponseEntity.ok(employerJobService.getJobs(user.userId(), page, size));
+        }
 
-    @GetMapping("/{jobId}")
-    @Operation(summary = "Get an owned job")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Job returned"),
-            @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Job not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<EmployerJobResponse> getJob(
-            @AuthenticationPrincipal AuthenticatedUser user,
-            @PathVariable Integer jobId
-    ) {
-        return ResponseEntity.ok(employerJobService.getJob(user.userId(), jobId));
-    }
+        @GetMapping("/{jobId}")
+        @Operation(summary = "Get an owned job")
+        @ApiResponses({
+                        @ApiResponse(responseCode = "200", description = "Job returned"),
+                        @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "404", description = "Job not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+        })
+        public ResponseEntity<EmployerJobResponse> getJob(
+                        @AuthenticationPrincipal AuthenticatedUser user,
+                        @PathVariable Integer jobId) {
+                return ResponseEntity.ok(employerJobService.getJob(user.userId(), jobId));
+        }
 
-    @PatchMapping("/{jobId}")
-    @Operation(summary = "Update an owned job")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Job updated"),
-            @ApiResponse(responseCode = "400", description = "Invalid job data", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Job not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<EmployerJobResponse> updateJob(
-            @AuthenticationPrincipal AuthenticatedUser user,
-            @PathVariable Integer jobId,
-            @Valid @RequestBody UpdateJobRequest request
-    ) {
-        return ResponseEntity.ok(employerJobService.updateJob(user.userId(), jobId, request));
-    }
+        @PatchMapping("/{jobId}")
+        @Operation(summary = "Update an owned job")
+        @ApiResponses({
+                        @ApiResponse(responseCode = "200", description = "Job updated"),
+                        @ApiResponse(responseCode = "400", description = "Invalid job data", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "404", description = "Job not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+        })
+        public ResponseEntity<EmployerJobResponse> updateJob(
+                        @AuthenticationPrincipal AuthenticatedUser user,
+                        @PathVariable Integer jobId,
+                        @Valid @RequestBody UpdateJobRequest request) {
+                return ResponseEntity.ok(employerJobService.updateJob(user.userId(), jobId, request));
+        }
 
-    @DeleteMapping("/{jobId}")
-    @Operation(summary = "Close an owned job without deleting its applications")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Job closed"),
-            @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Job not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<Void> closeJob(
-            @AuthenticationPrincipal AuthenticatedUser user,
-            @PathVariable Integer jobId
-    ) {
-        employerJobService.closeJob(user.userId(), jobId);
-        return ResponseEntity.noContent().build();
-    }
+        @DeleteMapping("/{jobId}")
+        @Operation(summary = "Close an owned job without deleting its applications")
+        @ApiResponses({
+                        @ApiResponse(responseCode = "204", description = "Job closed"),
+                        @ApiResponse(responseCode = "401", description = "Authentication required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "403", description = "Employer role required", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                        @ApiResponse(responseCode = "404", description = "Job not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+        })
+        public ResponseEntity<Void> closeJob(
+                        @AuthenticationPrincipal AuthenticatedUser user,
+                        @PathVariable Integer jobId) {
+                employerJobService.closeJob(user.userId(), jobId);
+                return ResponseEntity.noContent().build();
+        }
 }
