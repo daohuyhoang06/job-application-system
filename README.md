@@ -138,7 +138,7 @@ Compose chuyển các biến này thành `SPRING_DATASOURCE_*`, `JWT_*`, `MINIO_
 
 ## API
 
-Xem request/response và thử API tại Swagger UI. [Danh sách endpoint](docs/ENDPOINTS.md) được lưu trong `docs/`.
+Xem request/response và thử API tại Swagger UI. [Danh sách endpoint](docs/phase_1/ENDPOINTS.md) được lưu trong `docs/phase_1/`.
 
 | Nhóm                              | Endpoint                                                                                              | Quyền                  |
 | ---------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------- |
@@ -214,5 +214,8 @@ python -X utf8 ./kaggle-load-test/results/aggregate_results.py all
 ## Tài liệu
 
 - [Yêu cầu bài tập](docs/yeu_cau.md)
-- [API](docs/ENDPOINTS.md)
 - [Kế hoạch Pha 1](docs/PLAN.md)
+- [Mô tả bài toán](docs/phase_1/PROBLEM_DESCRIPTION.md)
+- [Các luồng nghiệp vụ cơ bản](docs/phase_1/BUSINESS_FLOWS.md)
+- [API](docs/phase_1/ENDPOINTS.md)
+- [Ý tưởng cải tiến Pha 2](docs/phase_2/PHASE2_IDEAS.md)
