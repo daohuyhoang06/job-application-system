@@ -125,6 +125,8 @@ def main():
     scen1_dir = os.path.join(phase1_dir, 'scenario1')
     scen2_dir = os.path.join(phase1_dir, 'scenario2')
     scen3_dir = os.path.join(phase1_dir, 'scenario3')
+    scen4_dir = os.path.join(phase1_dir, 'scenario4')
+    scen5_dir = os.path.join(phase1_dir, 'scenario5')
     
     # Xác định kịch bản cần hiển thị từ tham số dòng lệnh hoặc nhập từ bàn phím
     choice = "all"
@@ -136,10 +138,12 @@ def main():
         print("  [1]  : Kịch bản 1 (Baseline Read - 50 VUs)")
         print("  [2]  : Kịch bản 2 (Stress Test - 100 -> 300 VUs)")
         print("  [3]  : Kịch bản 3 (Auth & Write Lifecycle)")
+        print("  [4]  : Kịch bản 4 (Spike Test - 1.000 VUs & Recovery)")
+        print("  [5]  : Kịch bản 5 (High-Throughput - 1.000 -> 2.000 RPS)")
         print("  [all]: Xem tất cả kịch bản + Bảng so sánh đối chiếu")
         print("=" * 60)
         try:
-            user_input = input("Nhập số kịch bản bạn muốn xem (1/2/3/all) [Mặc định: all]: ").strip()
+            user_input = input("Nhập số kịch bản bạn muốn xem (1/2/3/4/5/all) [Mặc định: all]: ").strip()
             if user_input:
                 choice = user_input.lower()
         except EOFError:
@@ -152,13 +156,19 @@ def main():
         summarize_scenario(scen2_dir, "KỊCH BẢN 2: STRESS TEST (100 -> 300 VUs)", default_sla_p95=3000.0)
     elif choice in ['3', 'scen3', 'scenario3']:
         summarize_scenario(scen3_dir, "KỊCH BẢN 3: AUTH & WRITE OPERATIONS", default_sla_p95=2500.0)
+    elif choice in ['4', 'scen4', 'scenario4']:
+        summarize_scenario(scen4_dir, "KỊCH BẢN 4: SPIKE TEST (1.000 VUs & PHỤC HỒI)", default_sla_p95=3000.0, default_sla_error=15.0)
+    elif choice in ['5', 'scen5', 'scenario5']:
+        summarize_scenario(scen5_dir, "KỊCH BẢN 5: HIGH-THROUGHPUT (1.000 -> 2.000 RPS)", default_sla_p95=2000.0, default_sla_error=10.0)
     else:
         # Mặc định: Hiển thị tất cả và đối chiếu
         res1 = summarize_scenario(scen1_dir, "KỊCH BẢN 1: BASELINE CAPACITY (50 VUs)", default_sla_p95=1500.0)
         res2 = summarize_scenario(scen2_dir, "KỊCH BẢN 2: STRESS TEST (100 -> 300 VUs)", default_sla_p95=3000.0)
         res3 = summarize_scenario(scen3_dir, "KỊCH BẢN 3: AUTH & WRITE OPERATIONS", default_sla_p95=2500.0)
+        res4 = summarize_scenario(scen4_dir, "KỊCH BẢN 4: SPIKE TEST (1.000 VUs & PHỤC HỒI)", default_sla_p95=3000.0, default_sla_error=15.0)
+        res5 = summarize_scenario(scen5_dir, "KỊCH BẢN 5: HIGH-THROUGHPUT (1.000 -> 2.000 RPS)", default_sla_p95=2000.0, default_sla_error=10.0)
         
-        results = [r for r in [res1, res2, res3] if r is not None]
+        results = [r for r in [res1, res2, res3, res4, res5] if r is not None]
         if len(results) >= 2:
             print("\n" + "#" * 106)
             print("                 BẢNG ĐỐI CHIẾU CÁC KỊCH BẢN KIỂM THỬ TẢI PHA 1 (DÀNH CHO BÁO CÁO BTL)")
