@@ -1,14 +1,13 @@
-# Kết quả kiểm thử tải Phase 1 (Baseline)
+# Kịch bản 1 — Baseline đọc
 
-Thư mục này lưu trữ các file kết quả JSON đo đạc từ k6 trên Kaggle CPU.
+[Tổng quan kết quả Pha 1](../README.md) · [Phương pháp và báo cáo](../../../../docs/phase_1/TESTING.md)
 
-## Cấu trúc lưu trữ:
-- `scenario1_baseline/`: Lưu 3 lần chạy của Kịch bản 1 (Public Read - 50 VUs).
-  - `run1.json`
-  - `run2.json`
-  - `run3.json`
-- `scenario2_stress/`: Lưu kết quả của Kịch bản 2 (Stress Test - 100-300 VUs).
-- `scenario3_auth/`: Lưu kết quả của Kịch bản 3 (Auth & Write - 30 VUs).
+Đọc danh sách, tìm kiếm và xem chi tiết việc làm. Tổng thời lượng stage là 40 giây, tải đỉnh 50 VU.
 
-## Tại sao cần chạy 3 lần?
-Trong thực nghiệm Kỹ thuật Phần mềm (Empirical Software Engineering), việc chạy 3 lần và lấy giá trị **trung bình cộng (Average)** hoặc **trung vị (Median)** giúp loại trừ sai số ngẫu nhiên (nhiễu CPU, thời gian warm-up) và tăng độ tin cậy tuyệt đối cho báo cáo BTL.
+Kết quả từng lần:
+
+- [summary_phase_run1.json](summary_phase_run1.json)
+- [summary_phase_run2.json](summary_phase_run2.json)
+- [summary_phase_run3.json](summary_phase_run3.json)
+
+Trung bình cộng ba lần: **214,03 request/giây**, latency trung bình **6,19 ms**, trung bình P95 **9,80 ms**, HTTP lỗi **0%**. Trung bình P95 theo lần không phải P95 gộp.

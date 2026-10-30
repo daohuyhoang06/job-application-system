@@ -1,149 +1,62 @@
-# Mô tả bài toán
+# Bài toán và nghiệp vụ
 
-## 1. Bối cảnh
+[Mục lục](../README.md) · [Đặc tả API](ENDPOINTS.md)
 
-Hiện nay, nhu cầu tìm kiếm việc làm và tuyển dụng trực tuyến ngày càng phổ biến. Tuy nhiên, nếu thông tin tuyển dụng và hồ sơ ứng tuyển được quản lý qua nhiều kênh rời rạc như email, mạng xã hội hoặc bảng tính, ứng viên sẽ khó theo dõi quá trình ứng tuyển, còn nhà tuyển dụng mất nhiều thời gian tổng hợp và xử lý hồ sơ.
+## Bài toán
 
-Đề tài xây dựng **Job Application System – Hệ thống tìm kiếm và ứng tuyển việc làm**, cung cấp một nền tảng tập trung để:
+Job Application System quản lý quy trình tuyển dụng từ lúc đăng tin đến khi có kết quả ứng tuyển. Nhà tuyển dụng đăng công việc và xử lý hồ sơ tại một nơi. Ứng viên tìm việc, nộp CV và xem trạng thái từng đơn đã gửi.
 
-- Nhà tuyển dụng đăng và quản lý tin tuyển dụng.
+## Người dùng
 
-- Ứng viên tìm kiếm công việc phù hợp và nộp hồ sơ.
+**Khách** tìm kiếm việc làm theo từ khóa, địa điểm, danh mục, cấp bậc hoặc mức lương. Khách chỉ thấy các tin đang tuyển (`OPEN`).
 
-- Hai bên theo dõi quá trình xử lý đơn ứng tuyển.
+**Ứng viên** quản lý hồ sơ cá nhân, nộp CV, xem kết quả và rút đơn của mình.
 
-- Bảo đảm người dùng chỉ được truy cập dữ liệu đúng với vai trò và quyền sở hữu của mình.
+**Nhà tuyển dụng** đăng ký kèm thông tin công ty, quản lý tin và xử lý đơn ứng tuyển. Quyền quản lý gắn với người đăng tin; các nhà tuyển dụng cùng công ty không tự động có quyền trên tin của nhau.
 
-## 2. Lý do chọn đề tài
+## Quy trình tuyển dụng
 
-Nhóm lựa chọn đề tài này vì các lý do sau:
+1. Nhà tuyển dụng đăng ký tài khoản và công ty mới, sau đó đăng tin tuyển dụng.
+2. Ứng viên tìm tin phù hợp, đăng ký/đăng nhập rồi nộp CV PDF kèm thư giới thiệu nếu cần.
+3. Nhà tuyển dụng xem hồ sơ và cập nhật trạng thái đơn. Ứng viên theo dõi kết quả trong danh sách đơn đã nộp.
+4. Khi ngừng tuyển, nhà tuyển dụng đóng tin. Các đơn đã nộp vẫn được giữ lại để tiếp tục xử lý.
+5. Ứng viên có thể rút đơn. Nếu tin còn mở, có thể nộp lại một đơn mới.
 
-- **Quy trình nghiệp vụ rõ ràng:** Bài toán có đầy đủ các bước từ đăng tin, tìm kiếm, ứng tuyển đến xét duyệt hồ sơ.
+### Tin tuyển dụng
 
-- **Có nhiều nhóm người dùng:** Hệ thống cần phân biệt quyền giữa ứng viên và nhà tuyển dụng, phù hợp để áp dụng xác thực và phân quyền.
+Tin mới mặc định `OPEN`. Chỉ tin ở trạng thái này được hiển thị công khai và nhận đơn mới. Thao tác xóa chuyển tin sang `CLOSED`, giữ lại bản ghi và các đơn liên quan. Nhà tuyển dụng có thể mở lại tin đã đóng.
 
-- **Có khả năng mở rộng:** Hệ thống có thể tiếp tục phát triển thêm các chức năng như gợi ý công việc, phỏng vấn trực tuyến, gửi thông báo, quản lý CV và phân tích dữ liệu tuyển dụng.
+```mermaid
+stateDiagram-v2
+    [*] --> OPEN: Đăng tin
+    OPEN --> CLOSED: Đóng tin
+    CLOSED --> OPEN: Mở lại
+```
 
-- **Phù hợp với mục tiêu học tập:** Đề tài đáp ứng yêu cầu xây dựng REST API, xác thực người dùng, quản lý dữ liệu bằng ORM, tài liệu hóa API, kiểm thử và đóng gói bằng Docker.
+### Đơn ứng tuyển
 
-## 3. Người dùng của hệ thống
+Mỗi ứng viên có tối đa một đơn đang tồn tại cho cùng một tin. Rút đơn xóa bản ghi; nếu nộp lại, đơn mới bắt đầu ở `PENDING`.
 
-### 3.1. Khách truy cập
-
-Khách truy cập là người chưa đăng nhập vào hệ thống. Nhóm người dùng này có thể:
-
-- Xem danh sách các công việc đang tuyển.
-
-- Tìm kiếm và lọc công việc theo từ khóa, địa điểm, lĩnh vực, cấp bậc và mức lương.
-
-- Xem thông tin chi tiết của một công việc.
-
-- Đăng ký tài khoản ứng viên hoặc nhà tuyển dụng.
-
-### 3.2. Ứng viên
-
-Ứng viên là người có nhu cầu tìm kiếm và ứng tuyển việc làm. Các chức năng chính gồm:
-
-- Đăng ký và đăng nhập.
-
-- Xem, cập nhật thông tin cá nhân.
-
-- Tìm kiếm và xem chi tiết công việc.
-
-- Nộp hồ sơ ứng tuyển kèm CV và thư giới thiệu.
-
-- Xem danh sách và trạng thái các đơn đã nộp.
-
-- Xem chi tiết hoặc rút đơn ứng tuyển.
-
-Ứng viên chỉ được xem và thao tác trên hồ sơ, đơn ứng tuyển thuộc về chính mình.
-
-### 3.3. Nhà tuyển dụng
-
-Nhà tuyển dụng là cá nhân đại diện cho một công ty, có nhu cầu đăng tin và tìm kiếm ứng viên. Các chức năng chính gồm:
-
-- Đăng ký tài khoản cùng thông tin công ty và đăng nhập.
-
-- Đăng tin tuyển dụng.
-
-- Xem, cập nhật, đóng hoặc xóa mềm tin tuyển dụng của mình.
-
-- Xem danh sách ứng viên đã ứng tuyển vào từng công việc.
-
-- Xem chi tiết hồ sơ ứng tuyển.
-
-- Cập nhật trạng thái xử lý đơn ứng tuyển.
-
-Nhà tuyển dụng chỉ được quản lý công việc và đơn ứng tuyển thuộc các công việc do mình đăng.
-
-## 4. Các đối tượng chính
-
-| **Đối tượng** | **Mô tả** |
+| Trạng thái | Ý nghĩa |
 | --- | --- |
-| **Applicant – Ứng viên** | Lưu tài khoản và hồ sơ cá nhân của người tìm việc, gồm email, mật khẩu mã hóa, họ tên, số điện thoại và địa điểm. |
-| **Company – Công ty** | Lưu thông tin đơn vị tuyển dụng, gồm tên và phần giới thiệu công ty. |
-| **Employer – Nhà tuyển dụng** | Đại diện cho một công ty và chịu trách nhiệm đăng tin, quản lý công việc và xử lý hồ sơ ứng tuyển. |
-| **Job – Công việc** | Tin tuyển dụng do nhà tuyển dụng tạo, gồm tiêu đề, mô tả, lĩnh vực, địa điểm, cấp bậc, mức lương và trạng thái tuyển dụng. |
-| **Application – Đơn ứng tuyển** | Thể hiện việc một ứng viên ứng tuyển vào một công việc, gồm CV, thư giới thiệu, thời gian nộp và trạng thái xử lý. |
+| `PENDING` | Mới nộp |
+| `REVIEWING` | Đang xem xét |
+| `INTERVIEW` | Đến bước phỏng vấn |
+| `OFFERED` | Đã đề nghị tuyển dụng |
+| `REJECTED` | Bị từ chối |
 
-Quan hệ giữa các đối tượng:
+Nhà tuyển dụng có thể gán bất kỳ trạng thái nào trong bảng, kể cả với đơn thuộc tin đã đóng. Hệ thống chưa bắt buộc thứ tự chuyển trạng thái hoặc giới hạn rút đơn theo trạng thái.
 
-- Một công ty có thể có nhiều nhà tuyển dụng.
+### Hồ sơ và thông tin tuyển dụng
 
-- Một nhà tuyển dụng có thể đăng nhiều công việc.
+- Ứng viên chỉ xem và sửa hồ sơ của mình; chỉ xem/rút đơn do mình nộp.
+- Nhà tuyển dụng chỉ xử lý đơn thuộc tin do mình đăng.
+- CV phải là PDF không rỗng, tối đa 5 MiB. Toàn bộ request nộp hồ sơ cũng bị giới hạn 5 MiB.
+- Lương không âm. Nếu có cả hai đầu của khoảng lương thì `salaryMax >= salaryMin`.
+- Đăng ký nhà tuyển dụng tạo công ty mới; chưa hỗ trợ gia nhập công ty đã tồn tại.
 
-- Một công việc có thể nhận nhiều đơn ứng tuyển.
+## Phạm vi chức năng
 
-- Một ứng viên có thể nộp nhiều đơn cho các công việc khác nhau.
+Backend cung cấp API đăng ký/đăng nhập, cập nhật hồ sơ ứng viên, tìm việc, quản lý tin và đơn ứng tuyển.
 
-- Một ứng viên không được ứng tuyển nhiều lần vào cùng một công việc.
-
-## 5. Phạm vi của đề tài
-
-## Trong phạm vi
-
-Hệ thống tập trung vào các nghiệp vụ tuyển dụng cơ bản:
-
-- Đăng ký, đăng nhập cho ứng viên và nhà tuyển dụng.
-
-- Xác thực bằng JWT và phân quyền theo vai trò.
-
-- Quản lý hồ sơ cá nhân của ứng viên.
-
-- Quản lý thông tin công ty khi nhà tuyển dụng đăng ký.
-
-- Đăng, xem, cập nhật và đóng tin tuyển dụng.
-
-- Tìm kiếm, lọc và phân trang danh sách công việc.
-
-- Nộp và rút đơn ứng tuyển.
-
-- Theo dõi trạng thái đơn ứng tuyển.
-
-- Nhà tuyển dụng xem hồ sơ và cập nhật kết quả xử lý.
-
-- Kiểm tra quyền sở hữu dữ liệu.
-
-- Cung cấp tài liệu API bằng OpenAPI/Swagger.
-
-- Đóng gói, triển khai backend và cơ sở dữ liệu bằng Docker.
-
-## Ngoài phạm vi
-
-Phiên bản hiện tại chưa tập trung triển khai:
-
-- Giao diện website hoặc ứng dụng di động.
-
-- Vai trò quản trị viên và trang quản trị hệ thống.
-
-- Gửi email, SMS hoặc thông báo thời gian thực.
-
-- Nhắn tin trực tiếp giữa ứng viên và nhà tuyển dụng.
-
-- Đặt lịch và tổ chức phỏng vấn trực tuyến.
-
-- Gợi ý công việc bằng trí tuệ nhân tạo.
-
-- Đánh giá công ty, báo cáo tin tuyển dụng hoặc chống gian lận.
-
-- Phân tích CV tự động hoặc xếp hạng ứng viên.
+Chi tiết request/response và lỗi nằm trong [ENDPOINTS.md](ENDPOINTS.md). Cách tổ chức backend được mô tả ở [ARCHITECTURE.md](ARCHITECTURE.md); schema và cách lưu CV ở [DATABASE.md](DATABASE.md).
